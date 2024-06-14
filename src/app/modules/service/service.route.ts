@@ -3,34 +3,45 @@ import { ServiceControllers } from "./service.controller";
 import { adminMiddleware, authenticate } from "../../middlewares/authenticate";
 import { SlotController } from "../slot/slot.controller";
 import validateRequest from "../../middlewares/validateRequest";
-import { createServiceValidationSchema, updateServiceValidationSchema } from "./service.validation";
+import {
+  createServiceValidationSchema,
+  updateServiceValidationSchema,
+} from "./service.validation";
 
 const router = express.Router();
 
-router.post("/",
-    authenticate, adminMiddleware,
-    validateRequest(createServiceValidationSchema),
-    ServiceControllers.createService);
+router.post(
+  "/",
+  authenticate,
+  adminMiddleware,
+  validateRequest(createServiceValidationSchema),
+  ServiceControllers.createService,
+);
 
-router.get("/:id",
-    authenticate,
-    ServiceControllers.getService);
+router.get("/:id", authenticate, ServiceControllers.getService);
 
-router.get("/",
-    authenticate,
-    ServiceControllers.getAllServices);
+router.get("/", authenticate, ServiceControllers.getAllServices);
 
-router.put("/:id",
-    authenticate, adminMiddleware,
-    validateRequest(updateServiceValidationSchema),
-    ServiceControllers.updateService);
+router.put(
+  "/:id",
+  authenticate,
+  adminMiddleware,
+  validateRequest(updateServiceValidationSchema),
+  ServiceControllers.updateService,
+);
 
-router.delete("/:id",
-    authenticate, adminMiddleware,
-    ServiceControllers.deleteService);
+router.delete(
+  "/:id",
+  authenticate,
+  adminMiddleware,
+  ServiceControllers.deleteService,
+);
 
-router.post("/slots",
-    authenticate, adminMiddleware,
-    SlotController.createSlots);
+router.post(
+  "/slots",
+  authenticate,
+  adminMiddleware,
+  SlotController.createSlots,
+);
 
 export const ServiceRoutes = router;

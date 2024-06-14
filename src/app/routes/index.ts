@@ -7,19 +7,22 @@ import { BookingRoutes } from "../modules/booking/booking.route";
 const router = Router();
 
 const moduleRoutes = [
-    {
-        path: "/auth",
-        route: UserRoutes,
-    }, {
-        path: "/services",
-        route: ServiceRoutes,
-    }, {
-        path: "/slots",
-        route: SlotRoutes,
-    }, {
-        path: "/bookings",
-        route: BookingRoutes,
-    }
+  {
+    path: "/auth",
+    route: UserRoutes,
+  },
+  {
+    path: "/services",
+    route: ServiceRoutes,
+  },
+  {
+    path: "/slots",
+    route: SlotRoutes,
+  },
+  {
+    path: "/bookings",
+    route: BookingRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
