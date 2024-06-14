@@ -44,12 +44,21 @@ const getService = catchAsync(async (req, res, next) => {
 const getAllServices = catchAsync(async (req, res, next) => {
     const result = await ServiceServices.getAllServices();
 
-    sendResponse(res, {
-        statusCode: StatusCodes.OK,
-        success: true,
-        message: "Services retrieved successfully",
-        data: result
-    });
+    if (result.length > 0) {
+        sendResponse(res, {
+            statusCode: StatusCodes.OK,
+            success: true,
+            message: "Services retrieved successfully",
+            data: result
+        });
+    } else {
+        sendResponse(res, {
+            statusCode: StatusCodes.NOT_FOUND,
+            success: false,
+            message: "No services found",
+            data: null
+        });
+    }
 });
 
 const updateService = catchAsync(async (req, res, next) => {
@@ -101,8 +110,6 @@ const deleteService = catchAsync(async (req, res, next) => {
         data: result
     });
 });
-
-
 
 export const ServiceControllers = {
     createService,

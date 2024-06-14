@@ -2,11 +2,14 @@ import express from "express";
 import { ServiceControllers } from "./service.controller";
 import { adminMiddleware, authenticate } from "../../middlewares/authenticate";
 import { SlotController } from "../slot/slot.controller";
+import validateRequest from "../../middlewares/validateRequest";
+import { createServiceValidationSchema, updateServiceValidationSchema } from "./service.validation";
 
 const router = express.Router();
 
 router.post("/",
     authenticate, adminMiddleware,
+    validateRequest(createServiceValidationSchema),
     ServiceControllers.createService);
 
 router.get("/:id",
@@ -19,6 +22,7 @@ router.get("/",
 
 router.put("/:id",
     authenticate, adminMiddleware,
+    validateRequest(updateServiceValidationSchema),
     ServiceControllers.updateService);
 
 router.delete("/:id",
