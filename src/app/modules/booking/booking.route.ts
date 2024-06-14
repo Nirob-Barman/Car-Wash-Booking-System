@@ -1,12 +1,15 @@
 import { Router } from "express";
 import { BookingControllers } from "./booking.controller";
 import { adminMiddleware, authenticate, userMiddleware } from "../../middlewares/authenticate";
+import validateRequest from "../../middlewares/validateRequest";
+import { createBookingValidationSchema } from "./booking.validation";
 
 const router = Router();
 
 router.post(
     "/",
     authenticate, userMiddleware,
+    validateRequest(createBookingValidationSchema),
     BookingControllers.createBooking
 );
 
