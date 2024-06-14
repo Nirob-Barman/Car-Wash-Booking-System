@@ -1,6 +1,6 @@
-# E-commerce Data Management API
+# Car Wash Booking System
 
-This is a simple e-commerce data management application built using Express, TypeScript, and MongoDB with Mongoose. The application includes functionality for managing products and orders with data validation using Zod.
+This is a simple e-commerce car wash booking system built using Express, TypeScript, and MongoDB with Mongoose. The application includes functionality for managing products and orders with data validation using Zod.
 
 ## Project Setup
 
@@ -17,7 +17,7 @@ Ensure you have the following installed on your system:
 1. Clone the repository:
 
 ```sh
-git clone https://github.com/Nirob-Barman/Data-Management.git
+git clone https://github.com/Nirob-Barman/Car-Wash-Booking-System.git
 cd Data-Management
 ```
 2. Install the dependencies:
@@ -64,22 +64,3 @@ npm run prettier:fix
 You can use tools like Postman or cURL to test the API endpoints.
 
 ### Sample Endpoints:
-#### Product Management
-* Create a New Product: POST /api/products
-* Retrieve a List of All Products: GET /api/products
-* Retrieve a Specific Product by ID: GET /api/products/:productId
-* Update Product Information: PUT /api/products/:productId
-* Delete a Product: DELETE /api/products/:productId
-* Search a Product: GET /api/products?searchTerm=iphone
-#### Order Management
-* Create a New Order: POST /api/orders
-* Retrieve All Orders: GET /api/orders
-* Retrieve Orders by User Email: GET /api/orders?email=user@example.com
-## Dependencies
-* Express: Web framework for Node.js.
-* Mongoose: MongoDB object modeling tool.
-* Zod: Schema validation library for JavaScript and TypeScript.
-## Development Dependencies
-* TypeScript: Typed superset of JavaScript.
-* ESLint: JavaScript linter.
-* Prettier: Code formatter.
