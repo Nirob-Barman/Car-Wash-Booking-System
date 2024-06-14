@@ -1,14 +1,8 @@
 import { Schema, model } from "mongoose";
-import { TUser, TUserName } from "./user.interface";
-
-const UserNameSchema = new Schema<TUserName>({
-    firstName: { type: String, required: true },
-    middleName: { type: String },
-    lastName: { type: String, required: true },
-});
+import { TUser } from "./user.interface";
 
 const userSchema = new Schema<TUser>({
-    name: { type: UserNameSchema, required: true },
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phone: { type: String, required: true },

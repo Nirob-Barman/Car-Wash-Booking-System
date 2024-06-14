@@ -1,14 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { UserServices } from "./user.service";
-import { userValidationSchema } from "./user.validation";
 import catchAsync from "../../utils/catchAsync";
 import AppError from "../../errors/AppError";
 import { StatusCodes } from "http-status-codes";
-import { TUser } from "./user.interface";
 
 const userSignUp = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const validatedData = userValidationSchema.parse(req.body);
-    const user = await UserServices.userSignUp(validatedData);
+    const user = await UserServices.userSignUp(req.body);
 
     res.status(StatusCodes.OK).json({
         success: true,

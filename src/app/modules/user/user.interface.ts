@@ -1,11 +1,5 @@
-export type TUserName = {
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-};
-
 export interface TUser {
-    name: TUserName;
+    name: string;
     email: string;
     password: string;
     phone: string;
@@ -14,3 +8,4 @@ export interface TUser {
     createdAt?: Date;
     updatedAt?: Date;
 }
+

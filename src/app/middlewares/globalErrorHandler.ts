@@ -4,7 +4,7 @@ import { ZodError, ZodIssue } from "zod";
 import { TErrorSources } from "../interface/error";
 import config from "../config";
 import handleZodError from "../errors/handleZodError";
-// import handleValidationError from "../errors/handleValidationError";
+import handleValidationError from "../errors/handleValidationError";
 import handleCastError from "../errors/handleCastError";
 import handleDuplicateError from "../errors/handleDuplicateError";
 import AppError from "../errors/AppError";
@@ -31,15 +31,14 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         message = simplifiedError?.message;
         errorSources = simplifiedError?.errorSources;
         // console.log(simplifiedError);
+    }else if (err?.name === "ValidationError") {
+        // console.log("Mongoose Validation Error");
+        const simplifiedError = handleValidationError(err);
+        statusCode = simplifiedError?.statusCode;
+        message = simplifiedError?.message;
+        errorSources = simplifiedError?.errorSources;
+        // console.log(simplifiedError);
     }
-    // else if (err?.name === "ValidationError") {
-    //     // console.log("Mongoose Validation Error");
-    //     const simplifiedError = handleValidationError(err);
-    //     statusCode = simplifiedError?.statusCode;
-    //     message = simplifiedError?.message;
-    //     errorSources = simplifiedError?.errorSources;
-    //     // console.log(simplifiedError);
-    // }
     else if (err?.name === "CastError") {
         const simplifiedError = handleCastError(err);
         statusCode = simplifiedError?.statusCode;
