@@ -7,8 +7,8 @@ import { BookingServices } from "./booking.service";
 import { Service } from "../service/service.model";
 import { Slot } from "../slot/slot.model";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createBooking = catchAsync(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
     // console.log("Authenticated user ID: ", req.user._id);
 
@@ -21,16 +21,17 @@ const createBooking = catchAsync(
       );
     }
 
-    const isServiceExist = Service.findById({ _id: serviceId });
-
+    const isServiceExist = await Service.findById(serviceId);
     if (!isServiceExist) {
       throw new AppError(StatusCodes.NOT_FOUND, "Service not found");
     }
 
-    const isSlotExist = await Slot.findById({ _id: slotId });
-
+    const isSlotExist = await Slot.findById(slotId);
     if (!isSlotExist || isSlotExist.isBooked !== "available") {
-      throw new AppError(StatusCodes.NOT_FOUND, "Slot not found");
+      throw new AppError(
+        StatusCodes.NOT_FOUND,
+        "Slot not found or not available",
+      );
     }
 
     const bookingData = {
@@ -54,8 +55,8 @@ const createBooking = catchAsync(
   },
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getAllBookings = catchAsync(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
     const bookings = await BookingServices.getAllBookingsFromDB();
 
@@ -77,8 +78,8 @@ const getAllBookings = catchAsync(
   },
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getUserBookings = catchAsync(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user._id;
     const bookings = await BookingServices.getUserBookingsFromDB(userId);
@@ -97,7 +98,6 @@ const getUserBookings = catchAsync(
         data: [],
       });
     }
-
   },
 );
 

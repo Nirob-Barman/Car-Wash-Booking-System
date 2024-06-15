@@ -19,9 +19,9 @@ router.post(
   ServiceControllers.createService,
 );
 
-router.get("/:id", authenticate, ServiceControllers.getService);
+router.get("/:id", ServiceControllers.getService);
 
-router.get("/", authenticate, ServiceControllers.getAllServices);
+router.get("/", ServiceControllers.getAllServices);
 
 router.put(
   "/:id",

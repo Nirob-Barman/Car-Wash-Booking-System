@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { SlotService } from "./slot.service";
-import { createSlotValidationSchema } from "./slot.validation";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createSlots = catchAsync(async (req, res, next) => {

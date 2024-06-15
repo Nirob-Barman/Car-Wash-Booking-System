@@ -46,7 +46,9 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
-    errorMessages    // console.log(simplifiedError);
+    // eslint-disable-next-line no-unused-expressions
+    errorMessages;
+    // console.log(simplifiedError);
   } else if (err instanceof AppError) {
     statusCode = err.statusCode;
     message = err.message;
@@ -56,8 +58,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         message: err.message,
       },
     ];
-  }
-  else if (err instanceof Error) {
+  } else if (err instanceof Error) {
     message = err.message;
     errorMessages = [
       {
@@ -71,7 +72,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(statusCode).json({
       success: false,
       statusCode: 401,
-      message
+      message,
     });
   } else {
     return res.status(statusCode).json({
@@ -83,8 +84,6 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       stack: config.NODE_ENV === "development" ? err?.stack : null,
     });
   }
-
-
 };
 
 export default globalErrorHandler;

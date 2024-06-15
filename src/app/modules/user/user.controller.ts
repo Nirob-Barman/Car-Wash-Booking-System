@@ -4,8 +4,8 @@ import catchAsync from "../../utils/catchAsync";
 import AppError from "../../errors/AppError";
 import { StatusCodes } from "http-status-codes";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const userSignUp = catchAsync(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await UserServices.userSignUp(req.body);
 
@@ -19,6 +19,7 @@ const userSignUp = catchAsync(
 );
 
 const loginUser = catchAsync(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
