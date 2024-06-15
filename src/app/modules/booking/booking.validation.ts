@@ -4,8 +4,8 @@ import { VehicleType } from "./booking.constants";
 export const createBookingValidationSchema = z.object({
   body: z.object({
     customer: z.string(),
-    service: z.string(),
-    slot: z.string(),
+    serviceId: z.string(),
+    slotId: z.string(),
     vehicleType: z.enum([...VehicleType] as [string, ...string[]]),
     vehicleBrand: z.string().min(1),
     vehicleModel: z.string().min(1),

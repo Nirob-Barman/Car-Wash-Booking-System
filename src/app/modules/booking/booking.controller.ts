@@ -12,7 +12,7 @@ const createBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     // console.log("Authenticated user ID: ", req.user._id);
 
-    const { customer, service, slot } = req.body;
+    const { customer, serviceId, slotId } = req.body;
 
     if (customer !== req.user._id) {
       throw new AppError(
@@ -21,13 +21,13 @@ const createBooking = catchAsync(
       );
     }
 
-    const isServiceExist = Service.findById({ _id: service });
+    const isServiceExist = Service.findById({ _id: serviceId });
 
     if (!isServiceExist) {
       throw new AppError(StatusCodes.NOT_FOUND, "Service not found");
     }
 
-    const isSlotExist = await Slot.findById({ _id: slot });
+    const isSlotExist = await Slot.findById({ _id: slotId });
 
     if (!isSlotExist || isSlotExist.isBooked !== "available") {
       throw new AppError(StatusCodes.NOT_FOUND, "Slot not found");
@@ -36,6 +36,8 @@ const createBooking = catchAsync(
     const bookingData = {
       ...req.body,
       customer: req.user._id,
+      service: serviceId,
+      slot: slotId
     };
 
     const booking = await BookingServices.createBookServiceIntoDB(
