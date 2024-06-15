@@ -7,6 +7,7 @@ import {
   createServiceValidationSchema,
   updateServiceValidationSchema,
 } from "./service.validation";
+import { createSlotValidationSchema } from "../slot/slot.validation";
 
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.post(
   "/slots",
   authenticate,
   adminMiddleware,
+  validateRequest(createSlotValidationSchema),
   SlotController.createSlots,
 );
 

@@ -37,7 +37,7 @@ const createBooking = catchAsync(
       ...req.body,
       customer: req.user._id,
       service: serviceId,
-      slot: slotId
+      slot: slotId,
     };
 
     const booking = await BookingServices.createBookServiceIntoDB(

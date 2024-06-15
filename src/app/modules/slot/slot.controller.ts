@@ -6,15 +6,6 @@ import { createSlotValidationSchema } from "./slot.validation";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createSlots = catchAsync(async (req, res, next) => {
-  const validationResult = createSlotValidationSchema.safeParse(req.body);
-
-  if (!validationResult.success) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      success: false,
-      message: validationResult.error.errors[0].message,
-    });
-  }
-
   const result = await SlotService.createSlotsIntoDB(req.body);
 
   sendResponse(res, {

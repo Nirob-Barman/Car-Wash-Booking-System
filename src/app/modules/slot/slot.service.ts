@@ -28,6 +28,19 @@ const createSlotsIntoDB = async (payload: any) => {
       .toString()
       .padStart(2, "0")}:${(slotEnd % 60).toString().padStart(2, "0")}`;
 
+    const existingSlot = await Slot.findOne({
+      service,
+      date,
+      startTime: slotStartTime,
+      endTime: slotEndTime,
+    });
+
+    if (existingSlot) {
+      throw new Error(
+        `Slot already exists for service ${service} on ${date} from ${slotStartTime} to ${slotEndTime}`,
+      );
+    }
+
     const slot = {
       service,
       date,
