@@ -56,7 +56,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         message: err.message,
       },
     ];
-  } else if (err instanceof Error) {
+  }
+  else if (err instanceof Error) {
     message = err.message;
     errorMessages = [
       {
@@ -66,14 +67,24 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     ];
   }
 
-  return res.status(statusCode).json({
-    success: false,
-    message,
-    // error: err.message,
-    errorMessages,
-    // error: err,
-    stack: config.NODE_ENV === "development" ? err?.stack : null,
-  });
+  if (statusCode === 401 || statusCode === 403) {
+    return res.status(statusCode).json({
+      success: false,
+      statusCode: 401,
+      message
+    });
+  } else {
+    return res.status(statusCode).json({
+      success: false,
+      message,
+      // error: err.message,
+      errorMessages,
+      // error: err,
+      stack: config.NODE_ENV === "development" ? err?.stack : null,
+    });
+  }
+
+
 };
 
 export default globalErrorHandler;
