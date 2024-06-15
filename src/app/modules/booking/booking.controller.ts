@@ -82,12 +82,22 @@ const getUserBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user._id;
     const bookings = await BookingServices.getUserBookingsFromDB(userId);
-    sendResponse(res, {
-      statusCode: StatusCodes.OK,
-      success: true,
-      message: "User bookings retrieved successfully",
-      data: bookings,
-    });
+    if (bookings.length > 0) {
+      sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: "User bookings retrieved successfully",
+        data: bookings,
+      });
+    } else {
+      sendResponse(res, {
+        statusCode: StatusCodes.NOT_FOUND,
+        success: false,
+        message: "No bookings found",
+        data: null,
+      });
+    }
+
   },
 );
 
