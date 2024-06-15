@@ -57,8 +57,8 @@ const getAllServices = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       statusCode: StatusCodes.NOT_FOUND,
       success: false,
-      message: "No services found",
-      data: null,
+      message: "No Data Found",
+      data: [],
     });
   }
 });

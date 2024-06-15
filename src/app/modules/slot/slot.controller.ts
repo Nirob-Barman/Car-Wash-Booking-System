@@ -35,8 +35,8 @@ const getAvailableSlots = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       statusCode: StatusCodes.NOT_FOUND,
       success: false,
-      message: "No available slots found",
-      data: null,
+      message: "No Data Found",
+      data: [],
     });
   }
 });

@@ -70,8 +70,8 @@ const getAllBookings = catchAsync(
       sendResponse(res, {
         statusCode: StatusCodes.NOT_FOUND,
         success: false,
-        message: "No bookings found",
-        data: null,
+        message: "No Data Found",
+        data: [],
       });
     }
   },
@@ -93,8 +93,8 @@ const getUserBookings = catchAsync(
       sendResponse(res, {
         statusCode: StatusCodes.NOT_FOUND,
         success: false,
-        message: "No bookings found",
-        data: null,
+        message: "No Data Found",
+        data: [],
       });
     }
 
