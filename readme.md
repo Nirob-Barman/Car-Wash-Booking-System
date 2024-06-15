@@ -18,7 +18,7 @@ Ensure you have the following installed on your system:
 
 ```sh
 git clone https://github.com/Nirob-Barman/Car-Wash-Booking-System.git
-cd Data-Management
+cd Car-Wash-Booking-System
 ```
 2. Install the dependencies:
 ```
@@ -28,6 +28,9 @@ npm install
 ```
 DATABASE_URL=your_mongodb_connection_string
 PORT=3000
+BCRYPT_SALT_ROUNDS=12
+JWT_ACCESS_SECRET=your_access_secret
+JWT_ACCESS_EXPIRES_IN=desired_value
 ```
 ## Running the Application
 1. Build the TypeScript files:
@@ -57,10 +60,3 @@ npm run prettier
 ```
 npm run prettier:fix
 ```
-
-
-
-## Testing the Endpoints
-You can use tools like Postman or cURL to test the API endpoints.
-
-### Sample Endpoints:
