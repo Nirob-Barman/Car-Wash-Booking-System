@@ -60,3 +60,33 @@ npm run prettier
 ```
 npm run prettier:fix
 ```
+
+## Testing the Endpoints
+You can use tools like Postman or cURL to test the API endpoints.
+
+### Sample Endpoints:
+#### User Routes
+* User Sign Up: POST /api/auth/signup
+* User Login: POST /api/auth/login
+#### Service Routes
+* Create Service (Only Accessible by Admin): POST /api/services
+* Get a Service: GET /api/services/:id
+* Get All Services: GET /api/services
+* Update Service (Only Accessible by Admin): PUT /api/services/:id
+* Delete a Service (Only Accessible by Admin): DELETE /api/services/:id
+#### Slot Routes
+* Create Slot (Only Accessible by Admin): POST /api/services/slots
+* Create Slot (Only Accessible by Admin): POST /api/services/slots
+#### Booking Routes
+* Create Booking (Only Accessible by User): POST /api/bookings
+* Get All Bookings (Only Accessible by Admin): GET /api/bookings
+* Get User Bookings (Only Accessible by User): GET /api/bookings/user
+
+## Dependencies
+* Express: Web framework for Node.js.
+* Mongoose: MongoDB object modeling tool.
+* Zod: Schema validation library for JavaScript and TypeScript.
+## Development Dependencies
+* TypeScript: Typed superset of JavaScript.
+* ESLint: JavaScript linter.
+* Prettier: Code formatter.
