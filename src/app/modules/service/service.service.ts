@@ -25,9 +25,7 @@ const updateService = async (id: string, payload: Partial<TService>) => {
   }
 
   if (isServiceExistsById?.isDeleted) {
-    throw new AppError(StatusCodes.FORBIDDEN,
-      "Service is already deleted."
-    );
+    throw new AppError(StatusCodes.FORBIDDEN, "Service is already deleted.");
   }
 
   const result = await Service.findByIdAndUpdate(id, payload, { new: true });
@@ -41,9 +39,7 @@ const deleteService = async (id: string) => {
   }
 
   if (isServiceExistsById?.isDeleted) {
-    throw new AppError(StatusCodes.FORBIDDEN,
-      "Service is already deleted."
-    );
+    throw new AppError(StatusCodes.FORBIDDEN, "Service is already deleted.");
   }
   const result = await Service.findByIdAndUpdate(
     id,

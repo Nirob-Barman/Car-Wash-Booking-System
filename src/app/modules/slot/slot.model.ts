@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { TSlot } from "./slot.interface";
-import { string } from "zod";
 
 const SlotSchema = new Schema<TSlot>(
   {

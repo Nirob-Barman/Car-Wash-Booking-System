@@ -12,7 +12,7 @@ app.use(cors());
 app.use("/api", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send({"Message": "Welcome to Car Wash Booking System!"});
+  res.send({ Message: "Welcome to Car Wash Booking System!" });
 });
 
 app.use(notFound);

@@ -29,10 +29,10 @@ const createSlotsIntoDB = async (payload: any) => {
   if (startTimeInMinutes > endTimeInMinutes) {
     throw new AppError(
       StatusCodes.BAD_REQUEST,
-      `End time (${endTime}) cannot be earlier than start time (${startTime}).`
+      `End time (${endTime}) cannot be earlier than start time (${startTime}).`,
     );
   }
-  
+
   const timeDifferenceInMinutes = endTimeInMinutes - startTimeInMinutes;
 
   const overlappingSlots = await Slot.find({
@@ -44,7 +44,7 @@ const createSlotsIntoDB = async (payload: any) => {
   if (overlappingSlots.length > 0) {
     throw new AppError(
       StatusCodes.CONFLICT,
-      `Time slots already booked for service "${service}" on ${date} from ${startTime} to ${endTime}. Please choose a different time.`
+      `Time slots already booked for service "${service}" on ${date} from ${startTime} to ${endTime}. Please choose a different time.`,
     );
   }
 
@@ -53,7 +53,7 @@ const createSlotsIntoDB = async (payload: any) => {
   if (!serviceData || !serviceData.duration) {
     throw new AppError(
       StatusCodes.NOT_ACCEPTABLE,
-      `Service with ID: ${service} not found or missing duration. Please ensure the service has a valid duration.`
+      `Service with ID: ${service} not found or missing duration. Please ensure the service has a valid duration.`,
     );
   }
 
@@ -64,10 +64,10 @@ const createSlotsIntoDB = async (payload: any) => {
   const slots = [];
   for (let i = 0; i < totalSlotsCount; i++) {
     const slotStartTime = minutesToTimeString(
-      startTimeInMinutes + i * serviceDurationInMinutes
+      startTimeInMinutes + i * serviceDurationInMinutes,
     );
     const slotEndTime = minutesToTimeString(
-      startTimeInMinutes + (i + 1) * serviceDurationInMinutes
+      startTimeInMinutes + (i + 1) * serviceDurationInMinutes,
     );
 
     const slot = {
