@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+import AppError from "../../errors/AppError";
 import { TService } from "./service.interface";
 import { Service } from "./service.model";
 
@@ -17,11 +19,32 @@ const getAllServices = async () => {
 };
 
 const updateService = async (id: string, payload: Partial<TService>) => {
+  const isServiceExistsById = await Service.findById(id);
+  if (!isServiceExistsById) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Service not found");
+  }
+
+  if (isServiceExistsById?.isDeleted) {
+    throw new AppError(StatusCodes.FORBIDDEN,
+      "Service is already deleted."
+    );
+  }
+
   const result = await Service.findByIdAndUpdate(id, payload, { new: true });
   return result;
 };
 
 const deleteService = async (id: string) => {
+  const isServiceExistsById = await Service.findById(id);
+  if (!isServiceExistsById) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Service not found");
+  }
+
+  if (isServiceExistsById?.isDeleted) {
+    throw new AppError(StatusCodes.FORBIDDEN,
+      "Service is already deleted."
+    );
+  }
   const result = await Service.findByIdAndUpdate(
     id,
     { isDeleted: true },

@@ -1,10 +1,11 @@
 import { Schema, model } from "mongoose";
 import { TSlot } from "./slot.interface";
+import { string } from "zod";
 
 const SlotSchema = new Schema<TSlot>(
   {
     service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
-    date: { type: Date, required: true },
+    date: { type: String, required: true },
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
     isBooked: {

@@ -29,8 +29,12 @@ const userSignUp = async (payload: TUser) => {
 const loginUser = async (email: string, password: string) => {
   const user = await User.findOne({ email });
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid email or password");
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "This user is not found !");
+  }
+
+  if (!(await bcrypt.compare(password, user.password))) {
+    throw new AppError(StatusCodes.FORBIDDEN, "Password is incorrect !");
   }
 
   const jwtPayload = {

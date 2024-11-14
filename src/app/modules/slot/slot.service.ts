@@ -1,45 +1,74 @@
-import { Service } from "../service/service.model";
+import { StatusCodes } from "http-status-codes";
+import AppError from "../../errors/AppError";
 import { Slot } from "./slot.model";
+import { ServiceServices } from "../service/service.service";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createSlotsIntoDB = async (payload: any) => {
   const { service, date, startTime, endTime } = payload;
-  const serviceInfo = await Service.findById(service);
 
-  if (!serviceInfo) {
-    throw new Error("Service not found");
+  // Convert time string (HH:MM) to minutes
+  const timeStringToMinutes = (time: string): number => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
+  // Convert minutes to time string (HH:MM)
+  const minutesToTimeString = (minutes: number): string => {
+    const hours = Math.floor(minutes / 60)
+      .toString()
+      .padStart(2, "0");
+    const minutesPart = (minutes % 60).toString().padStart(2, "0");
+    return `${hours}:${minutesPart}`;
+  };
+
+  // Convert start and end times to minutes
+  const startTimeInMinutes = timeStringToMinutes(startTime);
+  const endTimeInMinutes = timeStringToMinutes(endTime);
+
+  // Checking if the end time is not earlier than the start time
+  if (startTimeInMinutes > endTimeInMinutes) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      `End time (${endTime}) cannot be earlier than start time (${startTime}).`
+    );
+  }
+  
+  const timeDifferenceInMinutes = endTimeInMinutes - startTimeInMinutes;
+
+  const overlappingSlots = await Slot.find({
+    service,
+    date,
+    startTime: { $gte: startTime, $lt: endTime },
+  });
+
+  if (overlappingSlots.length > 0) {
+    throw new AppError(
+      StatusCodes.CONFLICT,
+      `Time slots already booked for service "${service}" on ${date} from ${startTime} to ${endTime}. Please choose a different time.`
+    );
   }
 
-  const serviceDuration = serviceInfo.duration;
+  const serviceData = await ServiceServices.getSingleService(service);
+
+  if (!serviceData || !serviceData.duration) {
+    throw new AppError(
+      StatusCodes.NOT_ACCEPTABLE,
+      `Service with ID: ${service} not found or missing duration. Please ensure the service has a valid duration.`
+    );
+  }
+
+  const serviceDurationInMinutes = serviceData.duration;
+
+  const totalSlotsCount = timeDifferenceInMinutes / serviceDurationInMinutes;
+
   const slots = [];
-  const startMinutes =
-    parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1]);
-  const endMinutes =
-    parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1]);
-  const totalDuration = endMinutes - startMinutes;
-
-  for (let i = 0; i < totalDuration / serviceDuration; i++) {
-    const slotStart = startMinutes + i * serviceDuration;
-    const slotEnd = slotStart + serviceDuration;
-    const slotStartTime = `${Math.floor(slotStart / 60)
-      .toString()
-      .padStart(2, "0")}:${(slotStart % 60).toString().padStart(2, "0")}`;
-    const slotEndTime = `${Math.floor(slotEnd / 60)
-      .toString()
-      .padStart(2, "0")}:${(slotEnd % 60).toString().padStart(2, "0")}`;
-
-    const existingSlot = await Slot.findOne({
-      service,
-      date,
-      startTime: slotStartTime,
-      endTime: slotEndTime,
-    });
-
-    if (existingSlot) {
-      throw new Error(
-        `Slot already exists for service ${service} on ${date} from ${slotStartTime} to ${slotEndTime}`,
-      );
-    }
+  for (let i = 0; i < totalSlotsCount; i++) {
+    const slotStartTime = minutesToTimeString(
+      startTimeInMinutes + i * serviceDurationInMinutes
+    );
+    const slotEndTime = minutesToTimeString(
+      startTimeInMinutes + (i + 1) * serviceDurationInMinutes
+    );
 
     const slot = {
       service,
@@ -52,7 +81,7 @@ const createSlotsIntoDB = async (payload: any) => {
     slots.push(slot);
   }
 
-  const result = await Slot.insertMany(slots);
+  const result = await Slot.create(slots);
   return result;
 };
 const getAvailableSlots = async (date?: string, serviceId?: string) => {

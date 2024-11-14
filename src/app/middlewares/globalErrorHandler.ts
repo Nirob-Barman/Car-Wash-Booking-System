@@ -71,7 +71,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (statusCode === 401 || statusCode === 403) {
     return res.status(statusCode).json({
       success: false,
-      statusCode: 401,
+      statusCode: statusCode,
       message,
     });
   } else {
