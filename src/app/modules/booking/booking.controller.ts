@@ -4,8 +4,6 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import AppError from "../../errors/AppError";
 import { BookingServices } from "./booking.service";
-import { Service } from "../service/service.model";
-import { Slot } from "../slot/slot.model";
 
 const createBooking = catchAsync(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,19 +16,6 @@ const createBooking = catchAsync(
       throw new AppError(
         StatusCodes.UNAUTHORIZED,
         "User is not found to create booking",
-      );
-    }
-
-    const isServiceExist = await Service.findById(serviceId);
-    if (!isServiceExist) {
-      throw new AppError(StatusCodes.NOT_FOUND, "Service not found");
-    }
-
-    const isSlotExist = await Slot.findById(slotId);
-    if (!isSlotExist || isSlotExist.isBooked !== "available") {
-      throw new AppError(
-        StatusCodes.NOT_FOUND,
-        "Slot not found or not available",
       );
     }
 
